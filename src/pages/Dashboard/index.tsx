@@ -29,7 +29,7 @@ interface TransactionUnformated {
   value: number;
   type: 'income' | 'outcome';
   category: { title: string };
-  created_at: Date;
+  created_at: string;
 }
 
 interface Balance {
@@ -62,8 +62,13 @@ const Dashboard: React.FC = () => {
         (transaction: TransactionUnformated) => {
           const formattedValue = formatValue(Number(transaction.value));
 
+          const created_at = new Date(transaction.created_at); // eslint-disable-line
+          const formattedDate = new Intl.DateTimeFormat().format(created_at);
+
           return {
             ...transaction,
+            created_at, // eslint-disable-line
+            formattedDate,
             formattedValue,
           } as Transaction;
         },
@@ -117,7 +122,7 @@ const Dashboard: React.FC = () => {
 
             <tbody>
               {transactions.map(transaction => (
-                <tr>
+                <tr key={transaction.id}>
                   <td className="title">{transaction.title}</td>
                   <td className={transaction.type}>
                     {transaction.type === 'outcome'
@@ -125,7 +130,7 @@ const Dashboard: React.FC = () => {
                       : transaction.formattedValue}
                   </td>
                   <td>{transaction.category.title}</td>
-                  <td>20/04/2020</td>
+                  <td>{transaction.formattedDate}</td>
                 </tr>
               ))}
             </tbody>
