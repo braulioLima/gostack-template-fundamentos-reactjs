@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
           const formattedValue = formatValue(Number(transaction.value));
 
           const created_at = new Date(transaction.created_at); // eslint-disable-line
-          const formattedDate = new Intl.DateTimeFormat().format(created_at);
+          const formattedDate = new Intl.DateTimeFormat('pt-BR').format(created_at);
 
           return {
             ...transaction,
